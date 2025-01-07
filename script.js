@@ -153,13 +153,15 @@ function play() {
 
                 element.style.left = pipe_sprite_props.left - move_speed + 'px';
 
+                // Check if bird has passed through the gap
                 if (pipe_sprite_props.right < bird_props.left && !element.passed) {
-                    pipesPassed++;
-                    element.passed = true;
-                    if (pipesPassed % 2 === 0) {
-                        score_val.innerHTML = pipesPassed / 2;
+                    let upper_pipe = element.previousElementSibling;
+                    if (bird_props.top > upper_pipe.getBoundingClientRect().bottom && bird_props.bottom < pipe_sprite_props.top) {
+                        pipesPassed++;
+                        score_val.innerHTML = pipesPassed;
                         sound_point.play();
                     }
+                    element.passed = true;
                 }
             }
         });
@@ -270,3 +272,4 @@ function play() {
     }
     requestAnimationFrame(create_pipe);
 }
+
